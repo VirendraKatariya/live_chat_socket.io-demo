@@ -6,7 +6,7 @@ import { FaUserTie } from 'react-icons/fa'
 import { MdSend } from "react-icons/md";
 import dayjs from 'dayjs';
 
-const socket = io.connect("http://192.168.1.50:8000")
+const socket = io.connect("http://192.168.1.16:8000")
 
 const userName = nanoid(4);
 const chat = (props) => {
@@ -19,7 +19,7 @@ const chat = (props) => {
 
 	const sendChat = (e) => {
 		const time = dayjs(new Date()).format("h:mm A");
-		// console.log("message=> ",message);
+		console.log("message=> ", { message, userName, time, name, url });
 		e.preventDefault()
 		socket.emit("chat", { message, userName, time, name, url })
 		setMessage('')
@@ -41,14 +41,14 @@ const chat = (props) => {
 	const textAreaReSize = () => {
 		if (size < 3) setSize(size + 1);
 	}
-	
+
 
 	return (
 		<>
 			<div className='main'>
 				<section className='header'>
 					<div className='main-header'>
-						<div ><img className='logo' src ={props.profile}/></div>
+						<div ><img className='logo' src={props.profile} /></div>
 						<div><strong>{props.name}</strong></div>
 					</div>
 					<div className='sub-header'>
@@ -58,14 +58,14 @@ const chat = (props) => {
 				<section className='message'>
 
 					{chat.map((payload, index) => {
-						
+
 						return (
 							<div key={index} className=''>
 								{payload.userName === userName
 									?
 									<div className=' myMessageFull'>
 										{/* <div><FaUserTie /></div> */}
-										<div><img className='messageLogo' src ={props.profile}/></div>
+										<div><img className='messageLogo' src={props.profile} /></div>
 										<div
 											className='messageData'
 										// style={{width:{payload.message.length }}}
@@ -77,7 +77,7 @@ const chat = (props) => {
 									:
 									<div className='messageFull'>
 										{/* <div><FaUserTie /></div> */}
-										<div><img className='messageLogo' src={payload.url}/></div>
+										<div><img className='messageLogo' src={payload.url} /></div>
 										<div
 											className='messageData'
 										>
@@ -104,14 +104,14 @@ const chat = (props) => {
 								onChange={(e) => { setMessage(e.target.value) }}
 							/> */}
 							{/* <div style={{ display: '' }}> */}
-							<div style={{width:'80%'}}>
+							<div style={{ width: '80%' }}>
 								<Form.Control
 									as="textarea"
 									value={message}
 									onChange={(e) => { setMessage(e.target.value) }}
 									placeholder="Message"
 									rows={size}
-									style={{ borderRadius: '2rem', resize:'none' }}
+									style={{ borderRadius: '2rem', resize: 'none' }}
 									onKeyDown={(e) => { e.key == "Enter" && textAreaReSize() }}
 								/>
 							</div>
